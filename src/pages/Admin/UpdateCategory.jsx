@@ -1,15 +1,15 @@
-import { useNavigate, useParams } from "react-router-dom";
-import BackgroundAbout from "../../components/background/BackgroundAbout";
-import { useEffect, useState } from "react";
-import axios from "../../api/axios";
-import Swal from "sweetalert2";
+import { useNavigate, useParams } from 'react-router-dom';
+import BackgroundAbout from '../../components/background/BackgroundAbout';
+import { useEffect, useState } from 'react';
+import axios from '../../api/axios';
+import Swal from 'sweetalert2';
 
 const AddCategory = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [category, setCategory] = useState({
-    name: "",
-    description: "",
+    name: '',
+    description: '',
   });
 
   useEffect(() => {
@@ -39,34 +39,37 @@ const AddCategory = () => {
       const response = await axios.put(`/categories/${id}`, category);
       if (!response.status) {
         Swal.fire({
-          title: "Failed",
+          title: 'Failed',
           text: response.data.message,
-          icon: "error",
+          icon: 'error',
         });
       }
       Swal.fire({
-        title: "Success",
+        title: 'Success',
         text: response.data.message,
-        icon: "success",
+        icon: 'success',
+      }).then(() => {
+        navigate('/products');
+        window.location.reload();
       });
     } catch (error) {
       console.error(error);
       Swal.fire({
-        title: "Failed",
+        title: 'Failed',
         text: error.response.data.message,
-        icon: "error",
+        icon: 'error',
       });
     }
   };
 
   const handleCancel = () => {
-    navigate("/products");
+    navigate('/products');
   };
 
   return (
     <div className="font-poppins">
       <BackgroundAbout>
-        <div className="container py-20 px-4 sm:px-0">
+        <div className="container px-4 py-20 sm:px-0">
           <div className="p-4">
             <div className="p-4 bg-white border-1 border-[#321313] rounded-md mt-0">
               <h3 className="text-xl text-center text-[#321313] font-bold mb-0 p-4">
