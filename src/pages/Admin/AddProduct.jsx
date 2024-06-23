@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import BackgroundAbout from "../../components/background/BackgroundAbout";
-import { useEffect, useState } from "react";
-import axios, { axiosPrivate } from "../../api/axios";
-import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+import BackgroundAbout from '../../components/background/BackgroundAbout';
+import { useEffect, useState } from 'react';
+import axios, { axiosPrivate } from '../../api/axios';
+import Swal from 'sweetalert2';
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [product, setProduct] = useState({
-    name: "",
+    name: '',
     price: 0,
     category_id: null,
-    description: "",
+    description: '',
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -20,7 +20,7 @@ const AddProduct = () => {
     const { name, value } = e.target;
     setProduct({
       ...product,
-      [name]: name === "category_id" ? parseInt(value, 10) : value,
+      [name]: name === 'category_id' ? parseInt(value, 10) : value,
     });
   };
 
@@ -33,7 +33,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/categories");
+        const response = await axios.get('/categories');
         const fetchedCategories = response.data.payload;
         setCategories(fetchedCategories);
         if (fetchedCategories.length > 0) {
@@ -59,49 +59,54 @@ const AddProduct = () => {
     }
 
     if (selectedFile) {
-      formData.append("image", selectedFile);
+      formData.append('image', selectedFile);
     }
 
     try {
-      const response = await axiosPrivate.post("/product", formData, {
+      const response = await axiosPrivate.post('/product', formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
       if (!response.status) {
         Swal.fire({
-          title: "Failed",
+          title: 'Failed',
           text: response.data.message,
-          icon: "error",
+          icon: 'error',
         });
       } else {
         Swal.fire({
-          title: "Success",
+          title: 'Success',
           text: response.data.message,
-          icon: "success",
+          icon: 'success',
+        }).then(() => {
+          navigate('/products');
+          window.location.reload();
         });
-        navigate('/products');
       }
     } catch (error) {
       console.error(error);
       Swal.fire({
-        title: "Failed",
+        title: 'Failed',
         text: error.response.data.message,
-        icon: "error",
+        icon: 'error',
       });
     }
   };
 
   const handleCancel = () => {
-    navigate("/products");
+    navigate('/products');
   };
 
   return (
     <div className="font-poppins">
       <BackgroundAbout>
-        <div className="container py-20 px-4 sm:px-0">
+        <div className="container px-4 py-20 sm:px-0">
           <div className="p-4">
-            <form encType="multipart/form-data" className="p-4 bg-white border-1 border-[#321313] rounded-md mt-0">
+            <form
+              encType="multipart/form-data"
+              className="p-4 bg-white border-1 border-[#321313] rounded-md mt-0"
+            >
               <h3 className="text-xl text-center text-[#321313] font-bold mb-0 p-4">
                 Add Product
               </h3>
@@ -183,12 +188,16 @@ const AddProduct = () => {
                   type="file"
                   id="image"
                   name="image"
-                  className="border rounded px-2 py-1"
+                  className="px-2 py-1 border rounded"
                   onChange={handleFileChange}
                 />
                 {preview && (
                   <div className="mt-4">
-                    <img src={preview} alt="Preview" className="w-20 h-20 object-cover" />
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="object-cover w-20 h-20"
+                    />
                   </div>
                 )}
               </div>

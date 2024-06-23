@@ -1,13 +1,13 @@
-import { useState, useContext, useEffect, } from "react";
-import CategoryList from "../components/products/CategoryList";
-import FavoriteProducts from "../components/products/FavoriteProducts";
-import ProductList from "../components/products/ProductList";
-import { ProductContext } from "../context/ProductContext";
+import { useState, useContext, useEffect } from 'react';
+import CategoryList from '../components/products/CategoryList';
+import FavoriteProducts from '../components/products/FavoriteProducts';
+import ProductList from '../components/products/ProductList';
+import { ProductContext } from '../context/ProductContext';
 
 const Products = () => {
   const { categories } = useContext(ProductContext);
   const [activeComponent, setActiveComponent] = useState('');
-  const isAdmin = localStorage.getItem("role") == "admin" ? true : false;
+  const isAdmin = localStorage.getItem('role') == 'admin' ? true : false;
 
   useEffect(() => {
     setActiveComponent(categories[0]?.name);
@@ -18,9 +18,9 @@ const Products = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row mt-8">
+    <div className="flex flex-col mt-8 sm:flex-row">
       {/* Favorite Menu or Category List */}
-      {localStorage.getItem("role") != "admin" ? (
+      {localStorage.getItem('role') != 'admin' ? (
         <FavoriteProducts />
       ) : (
         <CategoryList />
@@ -28,9 +28,9 @@ const Products = () => {
       {/* Content Menu*/}
       <div
         className={`${
-          localStorage.getItem("role") == "admin"
-            ? "sm:basis-3/4"
-            : "sm:basis-2/3"
+          localStorage.getItem('role') == 'admin'
+            ? 'sm:basis-3/4'
+            : 'sm:basis-2/3'
         } flex flex-col mt-5 sm:mt-0 p-3`}
       >
         {/* Categories button */}
@@ -41,8 +41,8 @@ const Products = () => {
               onClick={() => handleCategoryClick(category.name)}
               className={`mx-2 text-base sm:text-lg ${
                 category.name == activeComponent
-                  ? "font-medium text-primary border-b border-primary"
-                  : ""
+                  ? 'font-medium text-primary border-b border-primary'
+                  : ''
               }`}
             >
               {category.name}
